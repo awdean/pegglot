@@ -1,3 +1,9 @@
 A packrat parser is a memoized recursive descent parser.
 Memoization is performed over rules and input string position.
 
+CharBuffer - definitely seems like the right choice for data representation
+Segment - nope
+String - slice duplicates substring and creates new object
+StringBuffer - seems targeted at building strings, replaced by StringBuilder? (meh)
+
+StreamTokenizer seems like the choice to suck in data, but we need to set good defaults.

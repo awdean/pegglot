@@ -23,19 +23,16 @@ EXPR_MAYBE = '[' WS? EXPR WS? ']' ;
 EXPR_MANY  = '{' WS? EXPR WS? '}+' ;
 EXPR_ANY   = '{' WS? EXPR WS? '}' ;
 EXPR_IDENTIFIER = T_IDENTIFIER (* No WS *) QUANTITY? ;
-EXPR_TERMINAL = STRING
+EXPR_TERMINAL = T_STRING
               | REGEX
               | T_NIL_SYMBOL
               | T_EOF_SYMBOL
-              | SPECIAL ;
+              | T_SPECIAL ;
 
 QUANTITY = T_QUANT_MAYBE
          | T_QUANT_ANY
          | T_QUANT_MANY ;
 
-STRING = "'" /([^\\']|\\.)*/ "'" (* TODO I suspect this will fail for certain strings *)
-	   | '"' /([^\\"]|\\.)*/ '"' ;
-SPECIAL = '?' /[^\?]*/ '?' ;
 REGEX = '/' (* FIXME *) '/' ;
 
 T_COMMENT     = /\(\*(.|\s)*?\*\)/ ;
@@ -48,5 +45,6 @@ T_QUANT_ANY   = '*' ;
 T_QUANT_MANY  = '+' ;
 T_QUANT_MAYBE = '?' ;
 T_SPECIAL     = /\?[^\?]*?\?/ ;
+T_STRING      = /'([^\\']|\\.)*'|"([^\\"]|\\.)*"/ ;
 T_WHITESPACE  = /\s+/ ;
 

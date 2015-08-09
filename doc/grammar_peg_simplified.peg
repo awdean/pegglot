@@ -1,4 +1,4 @@
-NOTE - This file is out of date.
+(* TODO: This file is out of date. *)
 
 START = WS START_1 $ ;
 START_1 = RULE WS START_1 | RULE WS ;
@@ -38,37 +38,37 @@ REGEX     = '/' (* FIXME *) '/' ;
 TERMINAL  = REGEX
           | T_STRING
           | T_EOF_SYMBOL
-		  | T_NIL_SYMBOL ;
+          | T_NIL_SYMBOL ;
 
 T_COMMENT     = '(*' T_COMMENT_1 ;
 T_COMMENT_1 = '*)' | T_COMMENT_2 T_COMMENT_1 ;
 T_COMMENT_2 = T_COMMENT_3 | T_COMMENT_4 ;
 T_COMMENT_3 = ' ' | '!' | '"' | '#' | '$' | '%' | '&' | '\x27' | '(' | ')'
-			| '*' | '+' | ',' | '-' | '.' | '/' | '0' | '1' | '2' | '3' | '4'
-			| '5' | '6' | '7' | '8' | '9' | ':' | ';' | '<' | '=' | '>' | '?'
-			| '@' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
-			| 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U'
-			| 'V' | 'W' | 'X' | 'Y' | 'Z' | '[' | '\\' | ']' | '^' | '_' | '`'
-			| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'
-			| 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v'
-			| 'w' | 'x' | 'y' | 'z' | '{' | '|' | '}' | '~' ;
+            | '*' | '+' | ',' | '-' | '.' | '/' | '0' | '1' | '2' | '3' | '4'
+            | '5' | '6' | '7' | '8' | '9' | ':' | ';' | '<' | '=' | '>' | '?'
+            | '@' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
+            | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U'
+            | 'V' | 'W' | 'X' | 'Y' | 'Z' | '[' | '\\' | ']' | '^' | '_' | '`'
+            | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'
+            | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v'
+            | 'w' | 'x' | 'y' | 'z' | '{' | '|' | '}' | '~' ;
 T_COMMENT_4 = ' ' | '\\t' | '\\n' | '\x0B' | '\\f' | '\\r' ;
 T_EOF_SYMBOL  = '$' ;
 T_IDENTIFIER  = T_IDENTIFIER_1 T_IDENTIFIER_2 ;
 T_IDENTIFIER_1 = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
-			   | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
-			   | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | 'a' | 'b' | 'c' | 'd'
-			   | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n'
-			   | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x'
-			   | 'y' | 'z' ;
+               | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
+               | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | 'a' | 'b' | 'c' | 'd'
+               | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n'
+               | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x'
+               | 'y' | 'z' ;
 T_IDENTIFIER_2 = T_IDENTIFIER_3 T_IDENTIFIER_2 | ~ ;
 T_IDENTIFIER_3 = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
                | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
-		       | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
-			   | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '_' | 'a' | 'b' | 'c'
-			   | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm'
-			   | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w'
-			   | 'x' | 'y' | 'z' ;
+               | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
+               | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '_' | 'a' | 'b' | 'c'
+               | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm'
+               | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w'
+               | 'x' | 'y' | 'z' ;
 T_LOOK_IS     = '&' ;
 T_LOOK_IS_NOT = '!' ;
 T_NIL_SYMBOL  = '~' ;
