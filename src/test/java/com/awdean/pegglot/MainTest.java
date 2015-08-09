@@ -1,4 +1,4 @@
-package com.awdean;
+package com.awdean.pegglot;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

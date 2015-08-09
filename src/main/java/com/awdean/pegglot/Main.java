@@ -1,4 +1,4 @@
-package com.awdean;
+package com.awdean.pegglot;
 
 /**
  * Hello world!
