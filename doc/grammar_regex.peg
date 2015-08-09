@@ -1,4 +1,4 @@
-(* This is not quite perfect as it stands, especially w/ regards to char-RE and \t, \n, etc.)
+(* This is not quite perfect as it stands, especially w/ regards to char-RE and \t, \n, etc. *)
 
 RE = simple-RE { "|" simple-RE }
 simple-RE = { basic-RE }+

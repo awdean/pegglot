@@ -1,3 +1,5 @@
+NOTE - This file is out of date.
+
 START = WS START_1 $ ;
 START_1 = RULE WS START_1 | RULE WS ;
 
