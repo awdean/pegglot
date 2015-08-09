@@ -1,0 +1,25 @@
+START = WS { RULE WS }+ $ ;
+
+WS = [ T_WHITESPACE ] { T_COMMENT [ T_WHITESPACE ] } ;
+RULE = T_IDENTIFIER WS '=' WS EXPR WS ';' ;
+
+EXPR = EXPR_COMPOUND
+     | EXPR_SINGLE ;
+EXPR_COMPOUND = EXPR_OR
+              | EXPR_AND ;
+EXPR_SINGLE = T_IDENTIFIER
+            | TERMINAL ;
+
+EXPR_AND = EXPR_SINGLE { WS EXPR }+ ;
+EXPR_OR  = EXPR_SINGLE { WS '|' WS EXPR }+ ;
+
+TERMINAL  = T_STRING
+          | T_EOF_SYMBOL
+		  | T_NIL_SYMBOL ;
+
+T_COMMENT     = /\(\*(.|\s)*?\*\)/ ;
+T_EOF_SYMBOL  = '$' ;
+T_IDENTIFIER  = /[a-zA-Z]\w*/ ;
+T_NIL_SYMBOL  = '~' ;
+T_STRING      = /'([^\\']|\\.)*'|"([^\\"]|\\.)*"/ ;
+T_WHITESPACE  = /\s+/ ;

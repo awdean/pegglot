@@ -1,0 +1,44 @@
+(* This is not quite perfect as it stands, especially w/ regards to char-RE and \t, \n, etc.)
+
+RE = simple-RE { "|" simple-RE }
+simple-RE = { basic-RE }+
+basic-RE = elementary-RE [ "??" | "*?" | "+?" | "?" | "*" | "+" ]
+elementary-RE = "(" RE ")"
+              | "[" [ "^" ] { <char> "-" <char> | <char> }+ "]"
+              | charclass-RE
+              | metachar-RE
+              | <char>
+charclass-RE = "\d" | "\D" | "\s" | "\S" | "\w" | "\W"
+metachar-RE = "." | "^" | "$"
+char-RE = ' ' | '\\!' | '"' | '#' | '\\$' | '%' | '&' | '\\x27' | '\\(' | '\\)'
+		| '\\*' | '\\+' | ',' | '\\-' | '\\.' | '/' | '0' | '1' | '2' | '3' | '4'
+		| '5' | '6' | '7' | '8' | '9' | ':' | ';' | '\\<' | '\\=' | '\\>' | '\\?'
+		| '@' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
+		| 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U'
+		| 'V' | 'W' | 'X' | 'Y' | 'Z' | '\\[' | '\\\\' | '\\]' | '\\^' | '_' | '`'
+		| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'
+		| 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v'
+		| 'w' | 'x' | 'y' | 'z' | '\\{' | '\\|' | '\\}' | '~' ;
+
+<([{\^-=$!|]})?*+.>
+
+["\\", ";", "|", "[^|*\\()]"]
+
+========
+
+REGEX = RE_SIMPLE { '|' RE_SIMPLE } ;
+
+RE_SIMPLE = { RE_BASIC }+ ;
+
+RE_BASIC = RE_ELEMENTARY [ RE_QUANTIFIER ] ;
+
+RE_ELEMENTARY = RE_GROUP
+			  | RE_CCLASS
+			  | RE_CCLASS_BUILTIN
+			  | 
+RE_QUANTIFIER = /[\?\*\+]\??/ ;
+
+RE_GROUP          = '(' REGEX ')' ;
+RE_CCLASS         = '[' [ '^' ] { RE_CHAR '-' RE_CHAR | RE_CHAR }+ ']'
+RE_CCLASS_BUILTIN = /\\[dDsSwW]/ ;
+

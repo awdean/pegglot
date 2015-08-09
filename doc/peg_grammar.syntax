@@ -1,0 +1,43 @@
+START = WS { RULE WS }+ $ ;
+
+WS = [ T_WHITESPACE ] { T_COMMENT [ T_WHITESPACE ] } ;
+RULE = T_IDENTIFIER WS '=' WS EXPR WS ';' ;
+
+EXPR = EXPR_COMPOUND
+     | EXPR_SINGLE ;
+EXPR_COMPOUND = EXPR_GROUP
+              | EXPR_OPTION
+              | EXPR_REPEAT
+              | EXPR_OR
+              | EXPR_AND ;
+EXPR_SINGLE = EXPR_IDENTIFIER
+            | EXPR_TERMINAL ;
+
+EXPR_AND        = EXPR_SINGLE { WS EXPR }+ ;
+EXPR_OR         = EXPR_SINGLE { WS '|' WS EXPR }+ ;
+EXPR_GROUP      = [ LOOKAHEAD ] (* No WS *) '(' WS EXPR WS ')' ;
+EXPR_OPTION     = [ LOOKAHEAD ] (* No WS *) '[' WS EXPR WS ']' ;
+EXPR_REPEAT     = [ LOOKAHEAD ] (* No WS *) '{' WS EXPR WS '}' (* No WS *) [ QUANTITY ] ;
+EXPR_IDENTIFIER = [ LOOKAHEAD ] (* No WS *) T_IDENTIFIER (* No WS *) [ QUANTITY ] ;
+EXPR_TERMINAL   = [ LOOKAHEAD ] (* No WS *) TERMINAL ;
+
+LOOKAHEAD = T_LOOK_IS
+          | T_LOOK_IS_NOT ;
+QUANTITY  = T_QUANT_ANY
+          | T_QUANT_MANY ;
+REGEX     = '/' (* FIXME *) '/' ;
+TERMINAL  = REGEX
+          | T_STRING
+          | T_EOF_SYMBOL
+		  | T_NIL_SYMBOL ;
+
+T_COMMENT     = /\(\*(.|\s)*?\*\)/ ;
+T_EOF_SYMBOL  = '$' ;
+T_IDENTIFIER  = /[a-zA-Z]\w*/ ;
+T_LOOK_IS     = '&' ;
+T_LOOK_IS_NOT = '!' ;
+T_NIL_SYMBOL  = '~' ;
+T_QUANT_ANY   = '*' ;
+T_QUANT_MANY  = '+' ;
+T_STRING      = /'([^\\']|\\.)*'|"([^\\"]|\\.)*"/ ;
+T_WHITESPACE  = /\s+/ ;

@@ -1,0 +1,77 @@
+START = WS START_1 $ ;
+START_1 = RULE WS START_1 | RULE WS ;
+
+WS = WS_1 WS_2 ;
+WS_1 = T_WHITESPACE | ~ ;
+WS_2 = T_COMMENT WS_1 WS_2 | ~ ;
+RULE = T_IDENTIFIER WS '=' WS EXPR WS ';' ;
+
+EXPR = EXPR_COMPOUND
+     | EXPR_SINGLE ;
+EXPR_COMPOUND = EXPR_GROUP
+              | EXPR_OPTION
+              | EXPR_REPEAT
+              | EXPR_OR
+              | EXPR_AND ;
+EXPR_SINGLE = EXPR_IDENTIFIER
+            | EXPR_TERMINAL ;
+
+EXPR_AND        = EXPR_SINGLE EXPR_AND_1 ;
+EXPR_AND_1 = WS EXPR EXPR_AND_1 | WS EXPR ;
+EXPR_OR         = EXPR_SINGLE EXPR_OR_1 ;
+EXPR_OR_1 = WS '|' WS EXPR EXPR_OR_1 | WS '|' WS EXPR ;
+EXPR_GROUP      = EXPR_GROUP_1 '(' WS EXPR WS ')' ;
+EXPR_GROUP_1 = LOOKAHEAD | ~ ;
+EXPR_OPTION     = EXPR_GROUP_1 '[' WS EXPR WS ']' ;
+EXPR_REPEAT     = EXPR_GROUP_1 '{' WS EXPR WS '}' EXPR_REPEAT_1 ;
+EXPR_REPEAT_1 = QUANTITY | ~ ;
+EXPR_IDENTIFIER = EXPR_GROUP_1 T_IDENTIFIER EXPR_REPEAT_1 ;
+EXPR_TERMINAL   = EXPR_GROUP_1 TERMINAL ;
+
+LOOKAHEAD = T_LOOK_IS
+          | T_LOOK_IS_NOT ;
+QUANTITY  = T_QUANT_ANY
+          | T_QUANT_MANY ;
+REGEX     = '/' (* FIXME *) '/' ;
+TERMINAL  = REGEX
+          | T_STRING
+          | T_EOF_SYMBOL
+		  | T_NIL_SYMBOL ;
+
+T_COMMENT     = '(*' T_COMMENT_1 ;
+T_COMMENT_1 = '*)' | T_COMMENT_2 T_COMMENT_1 ;
+T_COMMENT_2 = T_COMMENT_3 | T_COMMENT_4 ;
+T_COMMENT_3 = ' ' | '!' | '"' | '#' | '$' | '%' | '&' | '\x27' | '(' | ')'
+			| '*' | '+' | ',' | '-' | '.' | '/' | '0' | '1' | '2' | '3' | '4'
+			| '5' | '6' | '7' | '8' | '9' | ':' | ';' | '<' | '=' | '>' | '?'
+			| '@' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
+			| 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U'
+			| 'V' | 'W' | 'X' | 'Y' | 'Z' | '[' | '\\' | ']' | '^' | '_' | '`'
+			| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'
+			| 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v'
+			| 'w' | 'x' | 'y' | 'z' | '{' | '|' | '}' | '~' ;
+T_COMMENT_4 = ' ' | '\\t' | '\\n' | '\x0B' | '\\f' | '\\r' ;
+T_EOF_SYMBOL  = '$' ;
+T_IDENTIFIER  = T_IDENTIFIER_1 T_IDENTIFIER_2 ;
+T_IDENTIFIER_1 = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
+			   | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
+			   | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | 'a' | 'b' | 'c' | 'd'
+			   | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n'
+			   | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x'
+			   | 'y' | 'z' ;
+T_IDENTIFIER_2 = T_IDENTIFIER_3 T_IDENTIFIER_2 | ~ ;
+T_IDENTIFIER_3 = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+               | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
+		       | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
+			   | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '_' | 'a' | 'b' | 'c'
+			   | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm'
+			   | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w'
+			   | 'x' | 'y' | 'z' ;
+T_LOOK_IS     = '&' ;
+T_LOOK_IS_NOT = '!' ;
+T_NIL_SYMBOL  = '~' ;
+T_QUANT_ANY   = '*' ;
+T_QUANT_MANY  = '+' ;
+T_STRING      = /'([^\\']|\\.)*'|"([^\\"]|\\.)*"/ ; (* FIXME *)
+T_WHITESPACE  = T_WHITESPACE_1 ;
+T_WHITESPACE_1 = T_COMMENT_4 T_WHITESPACE_1 | T_COMMENT_4 ;
