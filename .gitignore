@@ -3,12 +3,12 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.ear
 
-# Eclipse
+# Eclipse Project Files
 /.classpath
 /.metadata/
 /.project
